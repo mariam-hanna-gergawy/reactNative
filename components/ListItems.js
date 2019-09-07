@@ -13,30 +13,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
 import data from '../json/items.json';
 
-const styles = StyleSheet.create({
-		container: {
-			flex: 1,		
-			paddingTop: 22,
-			backgroundColor: '#FAFAFA',
-		},
-		item: {
-		    padding: 10,
-		    fontSize: 18,
-		    height: 44,
-	  	},
-	  	loading: {
-			flex: 1,
-			backgroundColor: '#fff',
-			alignItems: 'center',
-			justifyContent: 'center'
-		},
-		button: {
-			borderRadius: 5, 
-			margin: 15, 
-			backgroundColor : "#00CCFF",
-		}
-});
-
 
 export default class ListItems extends Component{
 	constructor(props){
@@ -93,16 +69,16 @@ export default class ListItems extends Component{
 			);
     	}
 		return (
-			<ScrollView style={styles.container}>				
+			<View style={styles.container}>				
 				{
 					items.length ? 
-					<Card>
+					<ScrollView style={styles.itemsContainer}>
 		  				<FlatList
 		          			data={items}
 		          			renderItem={this.renderItem}
 		          			keyExtractor={(item, index) => index.toString()}
 		        		/>    					        
-					</Card> : null				
+					</ScrollView> : null				
 				}
 
 					<Button
@@ -118,10 +94,36 @@ export default class ListItems extends Component{
 			        	buttonStyle={styles.button}
 			        	onPress={this.goToAddItem}
 			        />
-			</ScrollView>
+			</View>
 		);
 	}
 }
 
 
 
+const styles = StyleSheet.create({
+		container: {
+			flex: 1,		
+			paddingTop: 22,
+			backgroundColor: '#FAFAFA',
+			padding: 20, 
+		},
+		itemsContainer: {
+			backgroundColor: '#FFF',
+		},
+		item: {
+		    padding: 10,
+		    fontSize: 18,
+		    height: 44,
+	  	},
+	  	loading: {
+			flex: 1,
+			backgroundColor: '#fff',
+			alignItems: 'center',
+			justifyContent: 'center'
+		},
+		button: {
+			borderRadius: 5, 			
+			backgroundColor : "#00CCFF",
+		}
+});
