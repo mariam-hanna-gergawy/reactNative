@@ -11,17 +11,19 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
   container: {
-      paddingTop: 23
-   },
-   input: {
-      margin: 15,
-      height: 40,
-      borderColor: '#CCC',
-      backgroundColor: '#fff',
-      borderWidth: 1,
-      padding: 5,
-      borderRadius: 5
-   }
+      padding: 15,
+  },
+  input: {     
+    height: 40,
+    borderColor: '#CCC',
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    padding: 5,
+    borderRadius: 5
+  },
+  error: {
+    color: "#FF0000"
+  }
 });
 
 
@@ -30,20 +32,22 @@ export default class AddItem extends Component{
     super(props);
     this.state = {
       name: '',
+      valid: true,
       loading: false
     }
   }
 
+  /* Validate Input Field */
   changeNameHandler = value => {
-      alpha = /^[a-zA-Z]+$/;
-      if(!alpha.test(value)){
-        value = "";
+      numbers = /.*[0-9].*/;
+      if(numbers.test(value)){
+        this.setState({"name": "", "valid": false});       
+      }else{
+        this.setState({"name": value, "valid": true});
       }
-      this.setState({"name": value});
-      
   }
 
-
+  /* set loading and send request to store data */
   submitHandler = event => {
     event.preventDefault();
     this.setState({
@@ -94,13 +98,13 @@ export default class AddItem extends Component{
                   name = "name"
                   onChangeText = {this.changeNameHandler}
                 />
-
-                <Button
-                  title = "Add"                               
-                  buttonStyle = {{borderRadius: 5, margin: 15, backgroundColor : "#1D7281"}}
-                  disabled = {!this.state.name}
-                  loading = {this.state.loading}
-                  onPress = {this.submitHandler}
+        {this.state.valid ? null : <Text style={styles.error}>Number not allowed</Text>}
+        <Button
+          title = "Add"                               
+          buttonStyle = {{marginTop: 15, borderRadius: 5, backgroundColor : "#1D7281"}}
+          disabled = {!this.state.name}
+          loading = {this.state.loading}
+          onPress = {this.submitHandler}
           />
       </View>
     );
